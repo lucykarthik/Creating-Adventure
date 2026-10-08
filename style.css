@@ -47,3 +47,101 @@ body {
         opacity: 1;
     }
 }
+
+.little-key {
+    position: fixed;
+    left: 50%;
+    top: 58%;
+
+    width: 58px;
+    height: 58px;
+
+    transform: translateX(-50%);
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+    opacity: 0;
+
+    animation: keyAppear 2s ease 3s forwards;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.key-shaft {
+    position: absolute;
+
+    width: 8px;
+    height: 38px;
+
+    left: 25px;
+    top: 10px;
+
+    background: #d8d8d8;
+    border-radius: 4px;
+
+    transform: rotate(45deg);
+}
+
+.key-ring {
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+
+    left: 9px;
+    top: 28px;
+
+    border: 5px solid #d8d8d8;
+    border-radius: 50%;
+
+    transform: rotate(45deg);
+}
+
+@keyframes keyAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.opening-line.fade-out {
+    animation: messageDisappear 1s ease forwards;
+}
+
+.little-key.unlocking {
+    animation: keyUnlock 1s ease forwards;
+}
+
+@keyframes keyUnlock {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
+
+    25% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.18) rotate(-8deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.12) rotate(8deg);
+    }
+
+    75% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.05) rotate(-4deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.85) rotate(15deg);
+    }
+}
