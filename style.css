@@ -20,3 +20,30 @@ body {
     min-height: 100vh;
     background: #000;
 }
+
+.opening-line {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.75);
+    font-family: Georgia, serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+
+    opacity: 0;
+    animation: openingFade 3s ease forwards;
+}
+
+@keyframes openingFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
