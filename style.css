@@ -35,7 +35,7 @@ body {
     text-align: center;
 
     opacity: 0;
-    animation: openingFade 3s ease forwards;
+    animation: openingFade 3s ease 1s forwards;
 }
 
 @keyframes openingFade {
@@ -64,7 +64,7 @@ body {
     cursor: pointer;
     opacity: 0;
 
-    animation: keyAppear 2s ease 3s forwards;
+    animation: keyAppear 2s ease 4s forwards;
 
     -webkit-tap-highlight-color: transparent;
 }
@@ -143,5 +143,66 @@ body {
     100% {
         opacity: 0;
         transform: translateX(-50%) scale(0.85) rotate(15deg);
+    }
+}
+
+.unlock-screen {
+    position: fixed;
+    inset: 0;
+
+    background: #000;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 10;
+}
+
+.next-scene {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+    color: white;
+
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: 20;
+}
+
+.unlock-screen.active {
+    animation: screenFade 1s ease forwards;
+}
+
+.next-scene.visible {
+    animation: sceneAppear 1.5s ease forwards;
+}
+
+@keyframes screenFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes sceneAppear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
