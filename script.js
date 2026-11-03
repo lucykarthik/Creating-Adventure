@@ -189,7 +189,7 @@ const foleyAudio = new FoleyAudioEngine();
 let currentTrackKey = null;
 let isMuted = false;
 let audioStarted = false;
-let fadeInterval = null;
+let fadeRafId = null;
 
 function setTrackVolume(track, vol) {
     if (!track) return;
@@ -232,9 +232,56 @@ function stopAllOtherTracks(exceptKey) {
     });
 }
 
+function primeAllTracks() {
+    Object.values(audioTracks).forEach((t) => {
+        if (!t) return;
+        try {
+            t.load();
+        } catch (e) {}
+    });
+}
+
+function primeUpcomingTracks(currentKey) {
+    const nextOrder = {
+        track1: ["track2", "soulmate"],
+        track2: ["soulmate", "track3"],
+        soulmate: ["track3", "track4"],
+        track3: ["track4"],
+        track4: []
+    };
+    const toPreload = nextOrder[currentKey] || [];
+    toPreload.forEach((k) => {
+        const tr = audioTracks[k];
+        if (tr && tr.readyState < 2) {
+            try {
+                tr.load();
+            } catch (e) {}
+        }
+    });
+}
+
+// Auto-recovery listeners on all audio tracks to prevent buffer stalls & crashes
+Object.entries(audioTracks).forEach(([key, track]) => {
+    if (!track) return;
+    track.addEventListener("playing", () => {
+        if (!isMuted && key === currentTrackKey && !fadeRafId) {
+            setTrackVolume(track, TARGET_VOLUME);
+        }
+    });
+    track.addEventListener("error", (e) => {
+        console.warn(`Audio track ${key} error encountered, attempting recovery:`, e);
+        try {
+            track.load();
+        } catch (err) {}
+    });
+});
+
 function crossfadeTo(targetKey, duration = 1800) {
     const newTrack = audioTracks[targetKey];
     if (!newTrack) return;
+
+    // Ahead-of-time buffer prime for upcoming tracks
+    primeUpcomingTracks(targetKey);
 
     // If target track is already playing, ensure all other tracks are stopped
     if (targetKey === currentTrackKey && !newTrack.paused) {
@@ -242,10 +289,10 @@ function crossfadeTo(targetKey, duration = 1800) {
         return;
     }
 
-    // Cancel any in-flight crossfade interval immediately
-    if (fadeInterval) {
-        clearInterval(fadeInterval);
-        fadeInterval = null;
+    // Cancel any in-flight crossfade RAF immediately
+    if (fadeRafId) {
+        cancelAnimationFrame(fadeRafId);
+        fadeRafId = null;
     }
 
     const oldKey = currentTrackKey;
@@ -273,31 +320,58 @@ function crossfadeTo(targetKey, duration = 1800) {
 
     // Crossfading between an active old track and a new track
     setTrackVolume(newTrack, 0);
+
+    let fadeStarted = false;
+    const startFadeRamp = () => {
+        if (fadeStarted) return;
+        fadeStarted = true;
+
+        const startTime = performance.now();
+        const startOldVol = oldTrack.volume > 0 ? oldTrack.volume : targetVol;
+
+        const tick = (now) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(1, elapsed / duration);
+
+            if (oldTrack) {
+                setTrackVolume(oldTrack, Math.max(0, startOldVol * (1 - progress)));
+            }
+            setTrackVolume(newTrack, Math.min(targetVol, targetVol * progress));
+
+            if (progress < 1) {
+                fadeRafId = requestAnimationFrame(tick);
+            } else {
+                fadeRafId = null;
+                // Full crossfade completed: cleanly stop and reset old track
+                stopAllOtherTracks(targetKey);
+                setTrackVolume(newTrack, targetVol);
+            }
+        };
+        fadeRafId = requestAnimationFrame(tick);
+    };
+
+    // Begin playing new track. When audio frames actually begin outputting, run the crossfade ramp!
     playTrackSafely(newTrack).then(() => {
         audioStarted = true;
         removeUnlockListeners();
-    }).catch(() => {});
-
-    const steps = 30;
-    const stepTime = Math.max(16, duration / steps);
-    let step = 0;
-
-    fadeInterval = setInterval(() => {
-        step++;
-        const progress = step / steps;
-        if (oldTrack) {
-            setTrackVolume(oldTrack, targetVol * (1 - progress));
+        if (newTrack.currentTime > 0 || newTrack.readyState >= 3) {
+            startFadeRamp();
+        } else {
+            const onPlayConfirmed = () => {
+                newTrack.removeEventListener("playing", onPlayConfirmed);
+                newTrack.removeEventListener("timeupdate", onPlayConfirmed);
+                startFadeRamp();
+            };
+            newTrack.addEventListener("playing", onPlayConfirmed, { once: true });
+            newTrack.addEventListener("timeupdate", onPlayConfirmed, { once: true });
+            setTimeout(startFadeRamp, 500);
         }
-        setTrackVolume(newTrack, targetVol * progress);
-
-        if (step >= steps) {
-            clearInterval(fadeInterval);
-            fadeInterval = null;
-            // Guarantee 100% pause, silence, and reset on all other tracks (preventing Soulmate / Track 1 bleeds)
-            stopAllOtherTracks(targetKey);
-            setTrackVolume(newTrack, targetVol);
+    }).catch(() => {
+        // If play deferred, keep oldTrack playing steadily at target volume
+        if (oldTrack && !oldTrack.paused) {
+            setTrackVolume(oldTrack, targetVol);
         }
-    }, stepTime);
+    });
 }
 
 function removeUnlockListeners() {
@@ -309,6 +383,7 @@ function removeUnlockListeners() {
 function startInitialAudio() {
     audioStarted = true;
     removeUnlockListeners();
+    primeAllTracks();
     const t1 = audioTracks.track1;
     if (!t1) return;
     crossfadeTo("track1");
@@ -322,6 +397,7 @@ function unlockInitialAudio() {
     }
     audioStarted = true;
     removeUnlockListeners();
+    primeAllTracks();
     startInitialAudio();
 }
 
@@ -410,6 +486,7 @@ const goldenLight = document.querySelector(".golden-light");
 
 key.addEventListener("click", () => {
     triggerHaptic("medium");
+    primeAllTracks();
     const lightHint = document.querySelector(".key-light-hint");
     if (lightHint) {
         lightHint.style.opacity = "0";
