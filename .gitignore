@@ -15,3 +15,5 @@ node_modules/
 # Temporary files
 *.tmp
 *.temp
+# Large uncompressed audio assets
+*.wav

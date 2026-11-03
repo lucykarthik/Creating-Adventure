@@ -6,56 +6,423 @@
 
     <title>Creating Adventure</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<main id="adventure">
-    <div class="opening-line">
-        <span>Some things are better discovered.</span>
+    <!-- Floating Audio Controller -->
+    <button id="audio-toggle" class="audio-control-btn" type="button" aria-label="Toggle background music" title="Toggle Music">
+        <svg class="audio-icon audio-icon-playing" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <svg class="audio-icon audio-icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <span class="audio-pulse-ring" aria-hidden="true"></span>
+    </button>
+
+    <!-- Cinematic Soundtrack Audio Tracks -->
+    <div id="soundtrack-container" style="display:none;" aria-hidden="true">
+        <audio id="audio-track-1" preload="auto" loop playsinline>
+            <source src="audio/track1-possession.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="audio-track-2" preload="auto" loop playsinline>
+            <source src="audio/track2-time-wont-change.mp3" type="audio/mpeg">
+        </audio>
+        <!-- Centerpiece Track: Soulmate (Countdown & Centerpiece Card) -->
+        <audio id="audio-track-soulmate" preload="auto" loop playsinline>
+            <source src="audio/Soulmate.m4a" type="audio/mp4">
+            <source src="audio/Soulmate.m4a" type="audio/x-m4a">
+        </audio>
+        <!-- Envelope & Letter Track: Lost Letters -->
+        <audio id="audio-track-3" preload="auto" loop playsinline>
+            <source src="audio/track3-lost-letters.mp3" type="audio/mpeg">
+            <source src="audio/track3-lost-letters.m4a" type="audio/mp4">
+        </audio>
+        <!-- Movie Credits Track: Enchanting -->
+        <audio id="audio-track-4" preload="auto" playsinline>
+            <source src="audio/track4-enchanting.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
-    <button class="little-key" aria-label="Unlock">
-    <span class="key-shaft"></span>
-    <span class="key-ring"></span>
-</button>
+<main id="adventure">
+    <!-- Stage 1: The Sacred Key & Opening -->
+    <div class="opening-space" aria-hidden="true">
+        <div class="opening-stardust"></div>
+    </div>
+
+    <div class="opening-line">
+        <span class="opening-tag">A Memory Adventure</span>
+        <h1 class="opening-title">Not all adventures begin on a map.</h1>
+        <p class="opening-prompt">Take the key to unlock what's inside.</p>
+    </div>
+
+    <!-- Ambient Sound Whisper -->
+    <div class="opening-audio-cue" aria-hidden="true">
+        <svg class="audio-cue-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path>
+        </svg>
+        <span class="audio-cue-text">Wear headphones for the best experience</span>
+    </div>
+
+    <button class="little-key" aria-label="Unlock the adventure" title="Take the key">
+        <div class="key-aura" aria-hidden="true"></div>
+        <span class="key-shaft"></span>
+        <span class="key-ring">
+            <span class="key-gem" aria-hidden="true">✦</span>
+        </span>
+    </button>
+
+    <!-- Pure Light Form Hint (Appears softly after 5s if idle) -->
+    <p class="key-light-hint" aria-hidden="true">touch the key to unlock</p>
 
     <div class="unlock-screen"></div>
     <div class="golden-light"></div>
 
-   
-<section class="next-scene">
-    <p class="unlock-message">Something has been unlocked.</p>
+    <!-- Stage 2: The Gateway Unlock -->
+    <section class="next-scene" aria-label="The Gateway">
+        <div class="gateway-beam" aria-hidden="true"></div>
+        <div class="gateway-content">
+            <div class="gateway-emblem" aria-hidden="true">✦</div>
+            <span class="gateway-tag">The Threshold</span>
+            <h2 class="gateway-title">The Door is Open.</h2>
+            <p class="gateway-subtitle">A quiet path back through the years we've shared.</p>
+            <button class="continue-hint" type="button">
+                Step Inside <span>→</span>
+            </button>
+        </div>
+    </section>
 
-    <button class="continue-hint" type="button">
-        Tap to continue <span>↓</span>
-    </button>
-</section>
+    <!-- Stage 3: The Discovery -->
+    <section class="discovery-scene" aria-label="The Discovery">
+        <div class="discovery-halo" aria-hidden="true"></div>
+        <div class="discovery-constellation" aria-hidden="true">
+            <span class="const-star const-1">✦</span>
+            <span class="const-line"></span>
+            <span class="const-star const-2">✦</span>
+            <span class="const-line"></span>
+            <span class="const-star const-3">✦</span>
+        </div>
+        <div class="discovery-content">
+            <span class="discovery-tag">Before the Noise</span>
+            <h2 class="discovery-title">Years may pass, but memories stay golden.</h2>
+            <p class="discovery-subtitle">A small pause for the chaos, the laughter, and the school days that built this bond.</p>
+            <button class="discovery-hint" type="button">
+                Follow the Light <span>↓</span>
+            </button>
+        </div>
+    </section>
 
-<section class="discovery-scene">
-    <p>Every adventure begins with a little wonder.</p>
+    <!-- Stage 4: The Birthday Wish & Candle -->
+    <section class="wish-scene" aria-label="Make a Wish">
+        <div class="wish-ambient-glow" aria-hidden="true"></div>
 
-    <button class="discovery-hint" type="button">
-        Continue <span>↓</span>
-    </button>
-</section>
+        <header class="wish-header">
+            <span class="wish-tag">A Birthday Tradition</span>
+            <h2 class="wish-heading">Make a Wish</h2>
+            <p class="wish-subheading">Every year brings new roads, but today is for you.</p>
+        </header>
 
+        <!-- The Realistic Birthday Candle -->
+        <div class="wish-candle-wrapper">
+            <div class="wish-candle" role="button" tabindex="0" aria-label="Touch to light the birthday candle">
+                <!-- Flame -->
+                <div class="candle-flame">
+                    <span class="flame-inner"></span>
+                </div>
+                <!-- Thread Wick with pre-ignition ember -->
+                <div class="candle-wick">
+                    <span class="wick-ember" aria-hidden="true"></span>
+                    <div class="wick-guide-ring" aria-hidden="true"></div>
+                </div>
+                <!-- Wax Pillar -->
+                <div class="candle-body">
+                    <div class="candle-melt"></div>
+                </div>
+                <!-- Brass Plate Pedestal -->
+                <div class="candle-pedestal" aria-hidden="true"></div>
+            </div>
+        </div>
 
-<section class="wish-scene">
-    <div class="wish-candle" role="button" tabindex="0" aria-label="Light the candle">
-        <div class="candle-flame"></div>
-        <div class="candle-body"></div>
-    </div>
+        <div class="wish-star" aria-hidden="true">✦</div>
 
-    <div class="wish-star">✦</div>
+        <p class="wish-message">Close your eyes, make your wish, and release it into the stars.</p>
 
-    <p class="wish-message">Some wishes are too precious to say aloud.</p>
+        <div class="wish-action-area">
+            <button class="wish-hint" type="button">Touch the Wick to Light the Flame ✦</button>
+            <p class="wish-guide-below" aria-hidden="true"><span class="guide-arrow">↑</span> touch the wick or tap above to light ✦</p>
+        </div>
 
-    <button class="wish-hint" type="button">Light the candle</button>
-</section>
+        <!-- Golden portal transition -->
+        <div class="wish-portal" aria-hidden="true"></div>
+    </section>
 
+    <!-- Stage 6: The Lantern Walk -->
+    <section class="memory-scene" aria-label="The Lantern Walk">
+        <!-- Celebratory Golden Birthday Streamer Blast for Chapters 1-3 -->
+        <canvas id="streamer-blast-canvas" class="streamer-blast-canvas" aria-hidden="true"></canvas>
+        <div class="popper-launcher" id="popper-launcher" aria-hidden="true"></div>
 
+        <div class="lantern-walk">
+            <!-- Floating Ambient Lantern -->
+            <div class="walk-lantern unlit" aria-hidden="true">
+                <div class="lantern-glow"></div>
+                <div class="lantern-frame">
+                    <div class="lantern-cap"></div>
+                    <div class="lantern-glass">
+                        <div class="lantern-flame"></div>
+                    </div>
+                    <div class="lantern-base"></div>
+                </div>
+            </div>
+
+            <!-- Memory Vignettes (Chapters) -->
+            <div class="vignette-stage">
+                <article class="vignette-card active" data-step="0">
+                    <span class="vignette-chapter">Chapter I</span>
+                    <h2 class="vignette-title">The First Steps</h2>
+                    <div class="vignette-token" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3 3"/>
+                        </svg>
+                    </div>
+                    <p class="vignette-text">It all began with a simple classroom arrangement. 📚 I got to know you through a friend of my group leader. Back then, I never imagined that such a small connection would lead to a friendship that would mean so much to me. 🫶</p>
+                </article>
+
+                <article class="vignette-card" data-step="1">
+                    <span class="vignette-chapter">Chapter II</span>
+                    <h2 class="vignette-title">The Shared Chaos</h2>
+                    <div class="vignette-token" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            <line x1="8" y1="7" x2="16" y2="7"/>
+                            <line x1="8" y1="11" x2="14" y2="11"/>
+                        </svg>
+                    </div>
+                    <p class="vignette-text">From surviving exam pressure and endless record writing to all the fun we had in class, our school days were filled with so many little moments. 📚 And those bus rides back home, talking about how the day went, followed by our messages even after reaching home… somehow, there was always something more to share. 😂💬 Looking back, it's amazing how those ordinary everyday moments became some of my favourite memories. 🥹✨</p>
+                </article>
+
+                <article class="vignette-card" data-step="2">
+                    <span class="vignette-chapter">Chapter III</span>
+                    <h2 class="vignette-title">The Quiet Constant</h2>
+                    <div class="vignette-token" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                            <path d="M11 19v2m4-2v2"/>
+                        </svg>
+                    </div>
+                    <p class="vignette-text">As school days turned into different routines, life slowly became busier for both of us. We may not talk as often as we used to, but our messages and calls still keep our friendship going 💬. I know we don't have to talk every day to remain best friends, but honestly, I still miss having you around in person. Those face-to-face conversations, random laughs, and little everyday moments are things that messages and calls can never quite replace. Even with life taking us through different routines, you'll always be someone whose presence I genuinely miss ✨.</p>
+                </article>
+
+                <article class="vignette-card" data-step="3">
+                    <span class="vignette-chapter">Chapter IV</span>
+                    <h2 class="vignette-title">The Open Horizon</h2>
+                    <div class="vignette-token" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2-4.5-4.4 6.2-.9z"/>
+                        </svg>
+                    </div>
+                    <p class="vignette-text">There's still so much waiting for us beyond the school days we've left behind. Different goals, new experiences, and plenty of things life has yet to bring our way. 🌷 I hope that, even as we grow older and follow our own paths, we still find little moments to meet, talk, laugh, and create new memories together. I genuinely wish to see you achieve everything you've been working towards and find happiness in every chapter ahead. And who knows? Maybe years from now, we'll look back at all these little memories and laugh about how it all began. Here's to everything still waiting for us! ✨</p>
+                </article>
+
+                <!-- Heartfelt Suspense Countdown before Centerpiece Reveal -->
+                <div class="walk-countdown-interlude" aria-hidden="true">
+                    <div class="countdown-pulse-ring"></div>
+                    <div class="countdown-number-box">
+                        <span class="countdown-num">3</span>
+                    </div>
+                    <p class="countdown-phrase">Every journey has a reason...</p>
+                    <p class="countdown-sub-phrase">A quiet pause before the truth.</p>
+                </div>
+
+                <article class="vignette-card conclusion-card" data-step="4">
+                    <div class="conclusion-emblem" aria-hidden="true">✦</div>
+                    <span class="vignette-chapter">FOR MY BEST FRIEND 🌷✨</span>
+                    <h2 class="vignette-title conclusion-name-title">Happy Birthday, Kokila! 🥳🎂🎀</h2>
+                    <p class="vignette-text">Another year of laughter, growth, and new experiences awaits you. I hope life brings you happiness, success, and everything you've been wishing for. 🌸🦋</p>
+                    <p class="vignette-text">And here's one thing I want you to know: No matter how much our lives change, I'll always value the friendship we've built. I'll keep cheering for you, celebrating your little victories, sharing laughs whenever we meet, and making more memories whenever life gives us the chance. 🫶💫</p>
+                    <p class="vignette-text">You have a friend in me, always. 🤝💗</p>
+                    <button class="walk-finish-btn" type="button">There is one last thing... ✦</button>
+                </article>
+            </div>
+
+            <!-- Navigation Controls -->
+            <nav class="walk-controls" aria-label="Lantern Walk Navigation">
+                <div class="step-indicators" aria-hidden="true">
+                    <span class="step-dot active"></span>
+                    <span class="step-dot"></span>
+                    <span class="step-dot"></span>
+                    <span class="step-dot"></span>
+                </div>
+                <button class="walk-step-btn" type="button">
+                    Walk forward <span>→</span>
+                </button>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Stage 7: The Cinematic Envelope & Letter Reveal -->
+    <section class="envelope-scene" aria-label="A Letter for You">
+        <div class="envelope-bloom" aria-hidden="true"></div>
+        <div class="envelope-shimmer" aria-hidden="true"></div>
+        <div class="envelope-spotlight" aria-hidden="true"></div>
+        <div class="envelope-wrapper">
+            <div class="envelope-glow" aria-hidden="true"></div>
+
+            <!-- The Interactive Envelope -->
+            <div class="envelope-card" role="button" tabindex="0" aria-label="Touch the wax seal to open the letter">
+                <div class="envelope-box">
+                    <!-- 1. Back panel with archival lining -->
+                    <div class="envelope-back">
+                        <div class="envelope-lining"></div>
+                    </div>
+
+                    <!-- 2. The Physical Letter Paper tucked inside the envelope pocket -->
+                    <article class="letter-paper" aria-hidden="true">
+                        <!-- Physical Fold Creases & Paper Edge Highlight -->
+                        <div class="paper-crease paper-crease-top" aria-hidden="true"></div>
+                        <div class="paper-crease paper-crease-bottom" aria-hidden="true"></div>
+                        <div class="paper-edge-highlight" aria-hidden="true"></div>
+
+                        <header class="letter-header">
+                            <span class="letter-subtitle">For My Best Friend</span>
+                            <h2 class="letter-title">Beyond the Adventure</h2>
+                        </header>
+                        <div class="letter-body">
+                            <p>If there's one thing I hope you know, it's how much you mean to me. <span class="letter-emoji">🫶</span></p>
+                            <p>This little website is my way of showing you just how much you matter to me. I hoping that even a small part of what our friendship means to me would reach you through these words and memories. <span class="letter-emoji">💗</span></p>
+                            <p>I've never really been on the receiving side of something like this, but I wanted you to experience it. Honestly, I wasn't sure how you'd feel about receiving something this personal from me, but I thought you deserved to have this experience too <span class="letter-emoji">🤍</span></p>
+                            <p>I've met so many people along the way, but the comfort I feel when I'm with you is something I haven't found with anyone else. There's just something about being around you that feels different—something easy, familiar, and hard to put into words. From our random conversations to our silliest jokes, you've given me so many little moments that I'll always keep close to my heart. <span class="letter-emoji">✨</span></p>
+                            <p>Maybe I don't tell you this often, but your presence makes a difference in my life. Even on days when I don't feel like talking to anyone, you're still someone I find myself wanting to talk to. And even when life gets busy and we don't talk as much, it doesn't make you any less important to me. <span class="letter-emoji">🤍</span></p>
+                            <p>Sometimes, when I see two best friends laughing together like absolute idiots over the smallest things, I find myself missing you a little more. It's funny how something so ordinary can remind you of someone so important. <span class="letter-emoji">🥹</span></p>
+                            <p>And honestly, your reels about our friendship? They genuinely light up my entire day. You might send them as just another reel, but to me, there's something special about knowing that a little piece of our friendship crossed your mind too. <span class="letter-emoji">🥺💞</span></p>
+                            <p>I don't know where life will take us or how much things will change along the way. But I hope that, no matter how busy life gets or how different our days become, we always find a way to stay in each other's lives. We don't have to talk every day for this friendship to matter. I just hope we never lose the comfort of being ourselves around each other. <span class="letter-emoji">🌷</span></p>
+                            <p class="letter-birthday-line"><strong>Happy Birthday, Kokila. <span class="letter-emoji">❤️🎂</span></strong></p>
+                            <p>I know life can get pretty tough sometimes, but whenever it does, just one call or one message is enough. I'll be there for you, no matter what—as your best friend, ready to listen, laugh with you, or simply be there whenever you need me. You can always count on me. <span class="letter-emoji">🫂🤝</span></p>
+                            <p>No matter how much life changes, I hope we always have a little space in each other's world for the laughter, the nonsense, and the friendship that means so much to me. Here's to many more little moments that we'll someday look back on and smile about. <span class="letter-emoji">✨</span></p>
+                            <div class="letter-signoff">
+                                <span class="signoff-salutation">Forever your friend,</span>
+                                <span class="signoff-name">Karthik</span>
+                            </div>
+                        </div>
+                        <footer class="letter-footer">
+                            <button class="letter-close-btn" type="button">Continue Journey ✦</button>
+                        </footer>
+                    </article>
+
+                    <!-- 3. Front Pocket Panels (covers lower half of letter) -->
+                    <div class="envelope-pocket"></div>
+
+                    <!-- 4. Top Triangular Flap -->
+                    <div class="envelope-flap"></div>
+
+                    <!-- 5. Golden Wax Seal -->
+                    <div class="envelope-seal" aria-hidden="true">
+                        <span class="seal-monogram">K</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="envelope-hint">Touch the seal to open</p>
+
+            <!-- Floating Scroll Guide Arrow (Positioned safely BELOW letter paper after 10s idle) -->
+            <button class="letter-scroll-cue" id="letter-scroll-cue" type="button" aria-label="Scroll down to read more" title="Scroll down">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Stage 8 & 9: The Cinematic Movie Ending Credits & Final Note -->
+    <section class="credits-scene" aria-label="Closing Credits and Farewell">
+        <div class="credits-stars" aria-hidden="true"></div>
+        <div class="credits-spotlight" aria-hidden="true"></div>
+        <div class="credits-final-bloom" aria-hidden="true"></div>
+
+        <div class="credits-theater">
+            
+            <!-- Slide 1: Original Soundtrack -->
+            <article class="credit-slide" data-slide="0">
+                <span class="credit-category">ORIGINAL SOUNDTRACK</span>
+                <p class="credit-highlight typewriter-text">Specially Made for You 🎶</p>
+                <div class="credit-track-list">
+                    <p class="credit-line typewriter-text">Every track you hear in this little adventure was composed by Me,</p>
+                    <p class="credit-line typewriter-text">Unakku pudikkum nu nenachen, So pannen 😁.</p>
+                    <p class="credit-line credit-software typewriter-text">Composed in FL Studio (software)</p>
+                    <p class="credit-line typewriter-text">A little gift through music. 🫶✨</p>
+                </div>
+            </article>
+
+            <!-- Slide 2: Story & Memories -->
+            <article class="credit-slide" data-slide="1">
+                <span class="credit-category">STORY &amp; MEMORIES</span>
+                <p class="credit-statement typewriter-text">Inspired by a Friendship Called Ours 💗</p>
+                <div class="credit-story-box">
+                    <p class="credit-subtext typewriter-text">From ordinary school days to unforgettable little moments, every part of this adventure carries a memory of our friendship 🏫💕</p>
+                    <p class="credit-subtext typewriter-text">Some memories were made in classrooms, some during phone calls, and some through simple messages. Each one became a little part of this story ✨</p>
+                </div>
+            </article>
+
+            <!-- Slide 3: Design & Coding -->
+            <article class="credit-slide" data-slide="2">
+                <span class="credit-category">DESIGN &amp; CODING</span>
+                <p class="credit-statement typewriter-text">A Month in the Making 🌙</p>
+                <div class="credit-story-box">
+                    <p class="credit-subtext typewriter-text">The first week went into building the foundation and writing the base code. The rest of the month was spent bringing this little adventure to life, one idea and detail at a time.</p>
+                    <p class="credit-subtext typewriter-text">Countless little touches, quiet late nights with start-dust, and a month of effort—all to make something special for you 🌷</p>
+                </div>
+            </article>
+
+            <!-- Slide 4: Special Dedication -->
+            <article class="credit-slide" data-slide="3">
+                <span class="credit-category">SPECIAL DEDICATION</span>
+                <div class="credit-dedication-box">
+                    <p class="credit-dedication-text typewriter-text">To the one friend who made the ordinary school days unforgettable. 🌷✨</p>
+                    <p class="credit-dedication-sub typewriter-text">No matter how far the road goes, some bonds remain unchanged. 🫶</p>
+                </div>
+            </article>
+
+            <!-- Slide 5: The Grand Final Climax & Peaceful Closing -->
+            <article class="credit-slide final-slide" data-slide="4">
+                <div class="final-star" aria-hidden="true">✦</div>
+                <div class="final-climax-box">
+                    <p class="final-gratitude-text typewriter-text">Thank you for being part of my story. 🌷</p>
+                    <h2 class="final-birthday-text typewriter-text">Happy Birthday, Kokz ! 🤍✨</h2>
+                    <div class="final-body-box">
+                        <p class="final-paragraph typewriter-text">The school days may be behind us, but the memories we've made will always have a special place in my life.</p>
+                        <p class="final-paragraph typewriter-text">I hope this little Bespoke brought a smile to your face, just as creating it brought so much joy to mine.</p>
+                        <p class="final-paragraph typewriter-text">Here's to the memories we've made, and all the little moments still waiting for us. 🥹💛</p>
+                    </div>
+                    <p class="final-friendship-text typewriter-text">With lots of friendship, always... 🫶</p>
+                </div>
+                <div class="final-actions">
+                    <button class="replay-btn" type="button" aria-label="Relive the journey">
+                        <span>↺</span> Relive the Journey
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Cinematic Next Slide Timer (Clean 6s Countdown) -->
+        <div class="credits-timeline-bar" aria-hidden="true">
+            <div class="credits-progress-track">
+                <div class="credits-progress-fill"></div>
+            </div>
+            <span class="credits-time-countdown">6s</span>
+        </div>
+    </section>
 
 </main>
 
